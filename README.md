@@ -5,7 +5,7 @@ A sample game in the style of base warriors using Unity DOTS.
 The game is played by two players. Each player has their own base and army. Players can create their armies.  
 The armies automatically fight each other on the map. The goal of the game is to destroy the enemy's base.
 
-![](images/demo.gif)
+![============ GIF DEMONSTRATION ============](images/demo.gif)
 
 ### Dependencies:
 
