@@ -8,14 +8,19 @@ namespace Game.Gameplay.GameEntities.Sounds
     public partial class SoundPlaySystem : SystemBase
     {
         private SoundLibrary _soundLibrary;
+        protected override void OnCreate()
+        {
+            RequireForUpdate<SoundPlayRequest>();
+            RequireForUpdate<SoundLibrary>();
+        }
 
         protected override void OnStartRunning()
         {
-           EntityQuery query =new EntityQueryBuilder(Allocator.Temp)
-               .WithAll<SoundLibrary>()
-               .Build(EntityManager);
+            EntityQuery query = new EntityQueryBuilder(Allocator.Temp)
+                .WithAll<SoundLibrary>()
+                .Build(EntityManager);
 
-           _soundLibrary = query.GetSingleton<SoundLibrary>();
+            _soundLibrary = query.GetSingleton<SoundLibrary>();
         }
         
         protected override void OnUpdate()

@@ -1,5 +1,6 @@
 using Unity.Burst;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Game.Gameplay.GameEntities.Common
@@ -12,14 +13,15 @@ namespace Game.Gameplay.GameEntities.Common
         {
             foreach (MovableAspect movableAspect in SystemAPI.Query<MovableAspect>())
             {
-                if (movableAspect.IsExistsSelfTransform() == false || 
+                if (movableAspect.IsExistsSelfTransform() == false ||
                     MoveDirectionUseCase.HasMoveDirection(movableAspect) == false)
                 {
                     continue;
                 }
 
-                movableAspect.CurrentPosition += MoveUseCase.CalculateMoveStep(movableAspect.MoveDirection,
-                    movableAspect.MoveSpeed, SystemAPI.Time.DeltaTime);
+                MoveUseCase.CalculateMoveStep(movableAspect.MoveDirection,
+                    movableAspect.MoveSpeed, SystemAPI.Time.DeltaTime, out float3 distance);
+                movableAspect.CurrentPosition += distance;
             }
         }
     }

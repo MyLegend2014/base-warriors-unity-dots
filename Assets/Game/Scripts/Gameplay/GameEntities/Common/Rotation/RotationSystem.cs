@@ -13,14 +13,24 @@ namespace Game.Gameplay.GameEntities.Common
             {
                 if (MoveDirectionUseCase.HasMoveDirection(rotationAspect.MoveDirection))
                 {
-                    rotationAspect.CurrentRotation = RotationUseCase.CalculateLerpRotation(rotationAspect.MoveDirection,
-                        rotationAspect.CurrentRotation, rotationAspect.RotationSpeed, SystemAPI.Time.DeltaTime);
+                    RotationUseCase.CalculateLerpRotation(
+                        rotationAspect.MoveDirection,
+                        rotationAspect.CurrentRotation,
+                        rotationAspect.RotationSpeed,
+                        SystemAPI.Time.DeltaTime,
+                        out var rotation);
+                    rotationAspect.CurrentRotation = rotation;
                 }
                 else if (rotationAspect.IsExistsTargetPosition)
                 {
-                    rotationAspect.CurrentRotation = RotationUseCase.CalculateLerpRotation(rotationAspect.Position,
-                        rotationAspect.TargetPosition, rotationAspect.CurrentRotation, rotationAspect.RotationSpeed, 
-                        SystemAPI.Time.DeltaTime);
+                    RotationUseCase.CalculateLerpRotation(
+                        rotationAspect.Position,
+                        rotationAspect.TargetPosition,
+                        rotationAspect.CurrentRotation,
+                        rotationAspect.RotationSpeed,
+                        SystemAPI.Time.DeltaTime,
+                        out var rotation);
+                    rotationAspect.CurrentRotation = rotation;
                 }
             }
         }

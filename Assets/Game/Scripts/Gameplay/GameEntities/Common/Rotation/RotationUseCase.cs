@@ -7,40 +7,40 @@ namespace Game.Gameplay.GameEntities.Common
     public static class RotationUseCase
     {
         [BurstCompile]
-        public static quaternion CalculateRotation(float3 sourcePosition, float3 targetPosition)
+        public static void CalculateRotation(in float3 sourcePosition, in float3 targetPosition, out quaternion rotation)
         {
             float3 moveDirection = MoveDirectionUseCase.CalculateMoveDirection(sourcePosition, targetPosition);
-            
-            return ClearRotationXZ(quaternion.LookRotationSafe(moveDirection, math.up()));
+
+            ClearRotationXZ(quaternion.LookRotationSafe(moveDirection, math.up()), out rotation);
         }
 
         [BurstCompile]
-        public static quaternion CalculateLerpRotation(float3 sourcePosition, float3 targetPosition, 
-            quaternion currentRotation, float rotationSpeed, float deltaTime)
+        public static void CalculateLerpRotation(in float3 sourcePosition, in float3 targetPosition,
+            in quaternion currentRotation, float rotationSpeed, float deltaTime, out quaternion rotation)
         {
             float3 moveDirection = MoveDirectionUseCase.CalculateMoveDirection(sourcePosition, targetPosition);
-            
-            return CalculateLerpRotation(moveDirection, currentRotation, rotationSpeed, deltaTime);
+
+            CalculateLerpRotation(moveDirection, currentRotation, rotationSpeed, deltaTime, out rotation);
         }
 
         [BurstCompile]
-        public static quaternion CalculateLerpRotation(float3 moveDirection, quaternion currentRotation, 
-            float rotationSpeed, float deltaTime)
+        public static void CalculateLerpRotation(in float3 moveDirection, in quaternion currentRotation,
+            float rotationSpeed, float deltaTime, out quaternion rotation)
         {
             quaternion targetRotation = quaternion.LookRotationSafe(moveDirection, math.up());
-            targetRotation = ClearRotationXZ(targetRotation);
-                
-            return math.slerp(currentRotation, targetRotation, deltaTime * rotationSpeed);
+            ClearRotationXZ(targetRotation, out var tempRotation);
+
+            rotation = math.slerp(currentRotation, tempRotation, deltaTime * rotationSpeed);
         }
 
         [BurstCompile]
-        private static quaternion ClearRotationXZ(in quaternion rotation)
+        private static void ClearRotationXZ(in quaternion rotation, out quaternion outRotation)
         {
             float3 euler = math.Euler(rotation);
             euler.x = 0f;
             euler.z = 0f;
-            
-            return quaternion.Euler(euler);
+
+            outRotation = quaternion.Euler(euler);
         }
     }
 }

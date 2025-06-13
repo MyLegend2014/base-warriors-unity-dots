@@ -8,6 +8,10 @@ namespace Game.Gameplay.GameEntities.Sounds
     public partial class DieSoundRequestSystem : SystemBase
     {
         private Entity _audioView;
+        protected override void OnCreate()
+        {
+            RequireForUpdate<GlobalAudioView>();
+        }
 
         protected override void OnStartRunning()
         {

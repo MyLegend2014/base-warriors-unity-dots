@@ -14,6 +14,7 @@ namespace Game.Gameplay.GameEntities.Content
         public void OnCreate(ref SystemState state)
         {
             _updateDelay = 0.05f;
+            state.RequireForUpdate<PhysicsWorldSingleton>();
         }
         
         [BurstCompile]

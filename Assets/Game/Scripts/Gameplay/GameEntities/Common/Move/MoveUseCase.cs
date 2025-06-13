@@ -9,9 +9,9 @@ namespace Game.Gameplay.GameEntities.Common
     public readonly struct MoveUseCase
     {
         [BurstCompile]
-        public static float3 CalculateMoveStep(in float3 moveDirection, in float moveSpeed, in float deltaTime)
+        public static void CalculateMoveStep(in float3 moveDirection, in float moveSpeed, in float deltaTime, out float3 distance)
         {
-            return moveDirection * moveSpeed * deltaTime;
+            distance = deltaTime * moveSpeed * moveDirection;
         }
 
         [BurstCompile]

@@ -9,6 +9,11 @@ namespace Game.Gameplay.GameEntities.View
     public partial class DieParticlesInitSystem : SystemBase
     {
         private ParticlesRegistry _particlesRegistry;
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+            RequireForUpdate<ParticlesRegistryReference>();
+        }
 
         protected override void OnStartRunning()
         {

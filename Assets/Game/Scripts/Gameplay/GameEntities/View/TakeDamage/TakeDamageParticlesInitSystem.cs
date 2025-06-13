@@ -9,6 +9,11 @@ namespace Game.Gameplay.GameEntities.View
     public partial class TakeDamageParticlesInitSystem : SystemBase
     {
         private ParticlesRegistry _particlesRegistry;
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+            RequireForUpdate<ParticlesRegistryReference>();
+        }
 
         protected override void OnStartRunning()
         {
@@ -19,7 +24,7 @@ namespace Game.Gameplay.GameEntities.View
             _particlesRegistry = query.GetSingleton<ParticlesRegistryReference>().Value;
             InitializeParticles();
         }
-        
+
         protected override void OnUpdate()
         {
         }
@@ -27,7 +32,7 @@ namespace Game.Gameplay.GameEntities.View
         private void InitializeParticles()
         {
             EntityCommandBuffer entityCommandBuffer = new EntityCommandBuffer(Allocator.Temp);
-            
+
             foreach ((RefRO<TakeDamageParticleType> particleType, Entity entity) in
                      SystemAPI.Query<RefRO<TakeDamageParticleType>>()
                          .WithNone<TakeDamageParticlesReference>()
@@ -38,14 +43,14 @@ namespace Game.Gameplay.GameEntities.View
                 {
                     continue;
                 }
-                
-                entityCommandBuffer.AddComponent(entity, new TakeDamageParticlesReference() 
-                    { Reference = pool });
+
+                entityCommandBuffer.AddComponent(entity, new TakeDamageParticlesReference()
+                { Reference = pool });
             }
-            
+
             if (entityCommandBuffer.IsEmpty)
                 return;
-            
+
             entityCommandBuffer.Playback(EntityManager);
             entityCommandBuffer.Dispose();
         }

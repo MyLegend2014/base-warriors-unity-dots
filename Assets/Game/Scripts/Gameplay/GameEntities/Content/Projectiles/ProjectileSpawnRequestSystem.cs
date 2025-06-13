@@ -3,6 +3,7 @@ using Game.Gameplay.GameEntities.View;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Entities.UniversalDelegates;
 using Unity.Mathematics;
 using Unity.Transforms;
 
@@ -18,6 +19,7 @@ namespace Game.Gameplay.GameEntities.Content
         public void OnCreate(ref SystemState state)
         {
             _animationEventHash = AnimatorUseCase.CreateAttackEventNameHash();
+            state.RequireForUpdate<SpawnerTag>();
         }
 
         [BurstCompile]
@@ -38,7 +40,7 @@ namespace Game.Gameplay.GameEntities.Content
                 
                 LocalTransform targetTransform = SystemAPI.GetComponent<LocalTransform>(aspect.TargetEntity);
                 float3 spawnPosition = aspect.CalculateSpawnPosition(state.EntityManager);
-                quaternion arrowRotation = RotationUseCase.CalculateRotation(spawnPosition, targetTransform.Position);
+                RotationUseCase.CalculateRotation(spawnPosition, targetTransform.Position, out quaternion arrowRotation);
                 
                 entityCommandBuffer.AppendToBuffer(_spawnerEntity, new SpawnRequest()
                 {

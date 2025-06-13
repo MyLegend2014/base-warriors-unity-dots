@@ -9,6 +9,12 @@ namespace Game.Gameplay.GameEntities.View
     public partial class ParticlesRegistryInitSystem : SystemBase
     {
         private ParticlesRegistry _particlesRegistry;
+        protected override void OnCreate()
+        {
+            base.OnCreate();
+            RequireForUpdate<ParticlesRegistryPrefab>();
+            RequireForUpdate<ParticlesRegistryReference>();
+        }
 
         protected override void OnStartRunning()
         {
