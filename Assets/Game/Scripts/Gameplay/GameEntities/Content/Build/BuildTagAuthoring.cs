@@ -9,8 +9,8 @@ namespace Game.Gameplay.GameEntities.Content
         {
             public override void Bake(BuildTagAuthoring authoring)
             {
-                GetEntity(TransformUsageFlags.Dynamic);
-                AddComponent<BuildTag>();
+                var entity = GetEntity(TransformUsageFlags.Dynamic);
+                AddComponent<BuildTag>(entity);
             }
         }
     }

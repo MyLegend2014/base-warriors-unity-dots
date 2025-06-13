@@ -10,8 +10,8 @@ namespace Game.Gameplay.GameEntities.Common
             public override void Bake(SpawnerAuthoring authoring)
             {
                 Entity entity = GetEntity(TransformUsageFlags.None);
-                AddComponent(new SpawnerTag() { Self = entity});
-                AddBuffer<SpawnRequest>();
+                AddComponent(entity, new SpawnerTag() { Self = entity});
+                AddBuffer<SpawnRequest>(entity);
             }
         }
     }

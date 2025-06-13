@@ -12,8 +12,8 @@ namespace Game.Gameplay.GameEntities.Common
         {
             public override void Bake(DamageAuthoring authoring)
             {
-                GetEntity(TransformUsageFlags.Dynamic);
-                AddComponent(new Damage() { Value = authoring.Value});
+                var entity = GetEntity(TransformUsageFlags.Dynamic);
+                AddComponent(entity, new Damage() { Value = authoring.Value});
             }
         }
     }
